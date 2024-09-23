@@ -1,0 +1,103 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+ip dhcp excluded-address 10.10.40.1
+!
+ip dhcp pool Management
+ network 10.10.40.0 255.255.255.224
+ default-router 10.10.40.1
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username bob privilege 15 secret 5 $1$mERr$H7PDxl7VYMqaD3id4jJVK/
+!
+!
+license udi pid CISCO2911/K9 sn FTX15240PFW-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.55
+ encapsulation dot1Q 55
+ ip address 192.168.55.1 255.255.255.248
+ ip helper-address 192.168.54.2
+!
+interface GigabitEthernet0/0.56
+ encapsulation dot1Q 56
+ ip address 10.10.40.1 255.255.255.224
+ ip helper-address 192.168.54.2
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 192.168.54.1 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+ip route 192.168.55.0 255.255.255.248 192.168.55.2 
+ip route 192.168.50.0 255.255.255.248 192.168.55.2 
+ip route 192.168.51.0 255.255.255.248 192.168.55.2 
+ip route 192.168.53.0 255.255.255.248 192.168.55.3 
+ip route 192.168.52.0 255.255.255.248 192.168.55.4 
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 2
+ login local
+line vty 3 4
+ login
+!
+!
+!
+end
+
